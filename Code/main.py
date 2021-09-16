@@ -81,27 +81,27 @@ class Patients:
     def smokerVsNonsmokerMethod(self):
         # average charges smoker vs. non-smoker
         totalDict = {}
-        for subDict in self.patientsDict.values():
+        for patientData in self.patientsDict.values():
             for status, title in {'yes': 'Smoker', 'no': 'Non Smoker'}.items():
-                if subDict["Smoker"] == status:
+                if patientData["Smoker"] == status:
                     storageDict = totalDict.pop(title, {})
                     totalChargeStored = storageDict.pop("Total Charge", 0)
                     totalNumberStored = storageDict.pop("Total Number", 0)
-                    totalChargeStored += subDict["Charges"]
+                    totalChargeStored += patientData["Charges"]
                     totalNumberStored += 1
                     storageDict.update({"Total Charge": totalChargeStored, "Total Number": totalNumberStored})
                     totalDict[title] = storageDict
         # determine average costs for smoker and non-smoker
-        for key, subDict in totalDict.items():
-            self.smokerAverageCosts[key] = subDict["Total Charge"] / subDict["Total Number"]
+        for key, patientData in totalDict.items():
+            self.smokerAverageCosts[key] = patientData["Total Charge"] / patientData["Total Number"]
 
     def averageAgeForChildrenMethod(self):
         # average age for all patients having at least one child
         sum = 0
         counter = 0
-        for subDict in self.patientsDict.values():
-            if subDict["Children"] >= 1:
-                sum += subDict["Age"]
+        for patientData in self.patientsDict.values():
+            if patientData["Children"] >= 1:
+                sum += patientData["Age"]
                 counter += 1
         self.averageAgeForChildren = sum / counter
 
@@ -109,20 +109,19 @@ class Patients:
 
         # PART 1: Find the maximum value of the provided attribute
         attributeList = []
-        for subDict in self.patientsDict.values():
-            attributeList.append(subDict[attribute])
+        for patientData in self.patientsDict.values():
+            attributeList.append(patientData[attribute])
         maximum = max(attributeList)
 
         # PART 2: find (average) charges for the maximum value found
         chargesOfMaximum = []
-        for key, subDict in self.patientsDict.items():
-            if subDict[attribute] == maximum:
-                chargesOfMaximum.append(subDict["Charges"])
+        for key, patientData in self.patientsDict.items():
+            if patientData[attribute] == maximum:
+                chargesOfMaximum.append(patientData["Charges"])
         average = sum(chargesOfMaximum) / len(chargesOfMaximum)
-        if attribute == "Age":
-            self.chargesForMaxAge = average
-        elif attribute == "BMI":
-            self.chargesForMaxBMI = average
+
+        # PART 3: combine the results of part 1 and part 2 in a dict
+        return {"Maximum Value": maximum, "Average Charges:": average}
 
 file = 'insurance.csv'
 patients = Patients()
@@ -139,8 +138,10 @@ for attribute in majoritiesToDetermine:
 patients.BMIvsCostsMethod()
 patients.smokerVsNonsmokerMethod()
 patients.averageAgeForChildrenMethod()
-patients.findChargesForExtremumMethod("Age")
-patients.findChargesForExtremumMethod("BMI")
+patients.chargesForMaxAge = patients.findChargesForExtremumMethod("Age")
+patients.chargesForMaxBMI = patients.findChargesForExtremumMethod("BMI")
+
+a = 1
 
 
 
