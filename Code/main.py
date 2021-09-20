@@ -123,25 +123,24 @@ class Patients:
         # PART 3: combine the results of part 1 and part 2 in a dict
         return {"Maximum Value": maximum, "Average Charges:": average}
 
-file = 'insurance.csv'
-patients = Patients()
-patients.convertDataMethod(file)
-# perform evaluation of the averages
-averagesToDetermine = ["Age", "BMI", "Children", "Charges"]
-for attribute in averagesToDetermine:
-    patients.averageAttributesMethod(attribute)
+if __name__ == '__main__':
+    file = 'insurance.csv'
+    patients = Patients()
+    patients.convertDataMethod(file)
+    # perform evaluation of the averages
+    averagesToDetermine = ["Age", "BMI", "Children", "Charges"]
+    for attribute in averagesToDetermine:
+        patients.averageAttributesMethod(attribute)
 
-majoritiesToDetermine = ["Sex", "Smoker", "Region"]
-for attribute in majoritiesToDetermine:
-    patients.countingAttributesMethod(attribute)
+    majoritiesToDetermine = ["Sex", "Smoker", "Region"]
+    for attribute in majoritiesToDetermine:
+        patients.countingAttributesMethod(attribute)
 
-patients.BMIvsCostsMethod()
-patients.smokerVsNonsmokerMethod()
-patients.averageAgeForChildrenMethod()
-patients.chargesForMaxAge = patients.findChargesForExtremumMethod("Age")
-patients.chargesForMaxBMI = patients.findChargesForExtremumMethod("BMI")
-
-a = 1
+    patients.BMIvsCostsMethod()
+    patients.smokerVsNonsmokerMethod()
+    patients.averageAgeForChildrenMethod()
+    patients.chargesForMaxAge = patients.findChargesForExtremumMethod("Age")
+    patients.chargesForMaxBMI = patients.findChargesForExtremumMethod("BMI")
 
 
 
